@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: reporadar
+
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  RepoRadar:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: reporadar/
+      Handler: src/app.handler
+      Runtime: nodejs12.x
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref RepoTable
+      Environment:
+        Variables:
+          REPO_TABLE_NAME: !Ref RepoTable
+      Events:
+        TelegramGeoQuiz:
+          Type: Api
+          Properties:
+            Path: /
+            Method: post
+
+  RepoTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: String
+      SSESpecification:
+        SSEEnabled: true
