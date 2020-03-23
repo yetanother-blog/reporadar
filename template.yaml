@@ -20,11 +20,11 @@ Resources:
         Variables:
           REPO_TABLE_NAME: !Ref RepoTable
       Events:
-        TelegramGeoQuiz:
-          Type: Api
+        Cron:
+          Type: Schedule
           Properties:
-            Path: /
-            Method: post
+            Schedule: cron(0 0 1 * * ?)
+            Enabled: True
 
   RepoTable:
     Type: AWS::Serverless::SimpleTable
