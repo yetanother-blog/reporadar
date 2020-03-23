@@ -23,7 +23,7 @@ Resources:
         Cron:
           Type: Schedule
           Properties:
-            Schedule: cron(0 0 1 * * ?)
+            Schedule: cron(0 12 * * ? *)
             Enabled: True
 
   RepoTable:
