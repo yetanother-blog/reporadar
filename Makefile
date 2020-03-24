@@ -4,8 +4,8 @@ include .env
 AWS_REGION=eu-west-1
 AWS_DEFAULT_REGION=eu-west-1
 SOURCE_DIR=reporadar
-BUCKET_NAME=reporadar-bucket-$(AWS_REGION)
-STACK_NAME=reporadar
+BUCKET_NAME=reporadar-bucket-$(AWS_REGION)-$(ENVIRONMENT)
+STACK_NAME=reporadar-$(ENVIRONMENT)
 
 export AWS_REGION
 export AWS_DEFAULT_REGION
@@ -16,8 +16,16 @@ $(SOURCE_DIR)/node_modules/.yarn-integrity: $(SOURCE_DIR)/yarn.lock
 
 dependencies: $(SOURCE_DIR)/node_modules/.yarn-integrity
 
-start: dependencies
-	yarn --cwd $(SOURCE_DIR) tsc --watch & sam local start-api
+start: dependencies guard-ENVIRONMENT
+	yarn --cwd $(SOURCE_DIR) tsc --watch & \
+	REPO_TABLE_NAME=$(shell make table-name) sam local start-lambda
+
+invoke:
+	@aws lambda invoke \
+		--function-name "RepoRadar" \
+		--endpoint-url "http://127.0.0.1:3001" \
+		--payload '{ "query": "created:>2019-03-22 stars:>500 language:TypeScript sort:updated" }' \
+		--no-verify-ssl response.json
 
 build: dependencies
 	yarn --cwd $(SOURCE_DIR) build
@@ -29,19 +37,26 @@ test: dependencies
 		yarn --cwd $(SOURCE_DIR) test --watch; \
 	fi
 
-create-bucket:
+create-bucket: guard-ENVIRONMENT
 	@aws s3 mb s3://$(BUCKET_NAME)
 
-deploy: build
+deploy: build guard-ENVIRONMENT
 	@sam package --output-template-file packaged.yaml --s3-bucket $(BUCKET_NAME)
 	@sam deploy \
 		--template-file packaged.yaml \
 		--stack-name ${STACK_NAME} \
-		--capabilities CAPABILITY_IAM
+		--capabilities CAPABILITY_IAM \
+		--parameter-overrides ENVIRONMENT=${ENVIRONMENT}
 	@aws cloudformation describe-stacks \
 		--stack-name ${STACK_NAME} \
 		--query 'Stacks[].Outputs' \
 		--output table
+
+table-name:
+	@aws cloudformation describe-stacks \
+		--stack-name ${STACK_NAME} \
+		--query 'Stacks[].Outputs[?OutputKey==`RepoTableName`].OutputValue' \
+		--output text
 
 guard-%:
 	@ if [ "${${*}}" = "" ]; then \

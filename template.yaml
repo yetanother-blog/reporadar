@@ -1,6 +1,10 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: reporadar
+Description: reporadar-${!Ref ENVIRONMENT}
+
+Parameters:
+  ENVIRONMENT:
+    Type: String
 
 Globals:
   Function:
@@ -34,3 +38,8 @@ Resources:
         Type: String
       SSESpecification:
         SSEEnabled: true
+
+Outputs:
+  RepoTableName:
+    Description: "Name of the DynamoDB database"
+    Value: !Ref RepoTable

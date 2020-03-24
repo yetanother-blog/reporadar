@@ -70,6 +70,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: eu-west-1
       AWS_DEFAULT_REGION: eu-west-1
+      ENVIRONMENT: prod
     steps:
       - uses: actions/checkout@v1
       - name: Setup Node.js
@@ -86,8 +87,8 @@ jobs:
       - name: Package sam
         uses: apex/actions/aws/sam@master
         with:
-          args: package --output-template-file packaged.yaml --s3-bucket reporadar-bucket-eu-west-1
+          args: package --output-template-file packaged.yaml --s3-bucket reporadar-bucket-eu-west-1-${{ env.ENVIRONMENT}}
       - name: Deploy
         uses: apex/actions/aws/sam@master
         with:
-          args: deploy --template-file packaged.yaml --stack-name reporadar --capabilities CAPABILITY_IAM
+          args: deploy --template-file packaged.yaml --stack-name reporadar --capabilities CAPABILITY_IAM --parameter-overrides ENVIRONMENT=${{ env.ENVIRONMENT}}
