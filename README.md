@@ -1,6 +1,6 @@
 # RepoRadar
 
-[![](https://github.com/HenrikFricke/reporadar/workflows/CI/badge.svg)](https://github.com/HenrikFricke/reporadar/actions)
+[![](https://github.com/yetanother-blog/reporadar/workflows/CI/badge.svg)](https://github.com/yetanother-blog/reporadar/actions)
 
 ## Dependencies
 
