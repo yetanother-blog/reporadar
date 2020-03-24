@@ -10,15 +10,11 @@ STACK_NAME=reporadar
 export AWS_REGION
 export AWS_DEFAULT_REGION
 
-node_modules/.yarn-integrity: yarn.lock
-	yarn
-	@touch $@
-
 $(SOURCE_DIR)/node_modules/.yarn-integrity: $(SOURCE_DIR)/yarn.lock
 	yarn --cwd $(SOURCE_DIR)
 	@touch $@
 
-dependencies: node_modules/.yarn-integrity $(SOURCE_DIR)/node_modules/.yarn-integrity
+dependencies: $(SOURCE_DIR)/node_modules/.yarn-integrity
 
 start: dependencies
 	yarn --cwd $(SOURCE_DIR) tsc --watch & sam local start-api

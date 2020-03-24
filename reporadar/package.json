@@ -11,18 +11,15 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.36",
-    "@types/aws-sdk": "^2.7.0",
-    "@types/node-fetch": "^2.5.3",
     "@types/sinon": "^7.5.1",
-    "ava": "^2.4.0",
+    "ava": "^3.5.1",
     "aws-sdk-mock": "^4.5.0",
     "sinon": "^7.5.0",
     "ts-node": "^8.5.2",
     "typescript": "^3.7.2"
   },
   "dependencies": {
-    "aws-sdk": "^2.578.0",
-    "node-fetch": "^2.6.0"
+    "aws-sdk": "^2.578.0"
   },
   "ava": {
     "compileEnhancements": false,
