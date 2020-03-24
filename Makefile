@@ -4,7 +4,7 @@ include .env
 AWS_REGION=eu-west-1
 AWS_DEFAULT_REGION=eu-west-1
 SOURCE_DIR=reporadar
-BUCKET_NAME=reporadar-$(AWS_REGION)
+BUCKET_NAME=reporadar-bucket-$(AWS_REGION)
 STACK_NAME=reporadar
 
 export AWS_REGION

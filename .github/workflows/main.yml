@@ -108,7 +108,7 @@ jobs:
       - name: Package sam
         uses: apex/actions/aws/sam@master
         with:
-          args: package --output-template-file packaged.yaml --s3-bucket reporadar-eu-west-1
+          args: package --output-template-file packaged.yaml --s3-bucket reporadar-bucket-eu-west-1
       - name: Deploy
         uses: apex/actions/aws/sam@master
         with:
