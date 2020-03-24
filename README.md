@@ -12,7 +12,7 @@
 
 ## Development
 
-We use a hybrid solution for the dev setup: Thanks to SAM, we can execute the Lambda functions locally, but we still need an instance of the stack on AWS to have infrastructure like the DynamoDB in place. Every developer should create their on instance by setting the `ENVIRONMENT` variable in the `.env` file.
+We use a hybrid solution for the dev setup: Thanks to SAM, we can execute the Lambda functions locally, but we still need an instance of the stack on AWS to have infrastructure like the DynamoDB in place. Every developer should create their own instance by setting the `ENVIRONMENT` variable in the `.env` file.
 
 1. Create a `.env` file (see `.env-template`)
 2. Create a S3 bucket for the CloudFormation stack: `make create-bucket`
