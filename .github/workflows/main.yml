@@ -91,4 +91,4 @@ jobs:
       - name: Deploy
         uses: apex/actions/aws/sam@master
         with:
-          args: deploy --template-file packaged.yaml --stack-name reporadar-${{ env.ENVIRONMENT}} --capabilities CAPABILITY_IAM --parameter-overrides ENVIRONMENT=${{ env.ENVIRONMENT}} GITHUB_ACCESS_TOKEN=${{ env.GITHUB_ACCESS_TOKEN}}
+          args: deploy --template-file packaged.yaml --stack-name reporadar-${{ env.ENVIRONMENT}} --capabilities CAPABILITY_IAM --parameter-overrides ENVIRONMENT=${{ env.ENVIRONMENT}} GITHUB_ACCESS_TOKEN=${{ secrets.GITHUB_ACCESS_TOKEN}}
