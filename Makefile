@@ -47,7 +47,7 @@ deploy: build guard-ENVIRONMENT guard-GITHUB_ACCESS_TOKEN
 		--template-file packaged.yaml \
 		--stack-name ${STACK_NAME} \
 		--capabilities CAPABILITY_IAM \
-		--parameter-overrides ENVIRONMENT=${ENVIRONMENT} GITHUB_ACCESS_TOKEN=${{ env.GITHUB_ACCESS_TOKEN}}
+		--parameter-overrides Environment=${ENVIRONMENT} GitHubAccessToken=${{ env.GITHUB_ACCESS_TOKEN}}
 	@aws cloudformation describe-stacks \
 		--stack-name ${STACK_NAME} \
 		--query 'Stacks[].Outputs' \

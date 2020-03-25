@@ -1,11 +1,11 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: reporadar-${!Ref ENVIRONMENT}
+Description: reporadar-${!Ref Environment}
 
 Parameters:
-  ENVIRONMENT:
+  Environment:
     Type: String
-  GITHUB_ACCESS_TOKEN:
+  GitHubAccessToken:
     Type: String
 Globals:
   Function:
@@ -24,7 +24,7 @@ Resources:
       Environment:
         Variables:
           REPO_TABLE_NAME: !Ref RepoTable
-          GITHUB_ACCESS_TOKEN: !Ref GITHUB_ACCESS_TOKEN
+          GITHUB_ACCESS_TOKEN: !Ref GitHubAccessToken
       Events:
         Cron:
           Type: Schedule
