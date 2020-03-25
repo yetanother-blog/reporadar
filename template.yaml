@@ -5,7 +5,8 @@ Description: reporadar-${!Ref ENVIRONMENT}
 Parameters:
   ENVIRONMENT:
     Type: String
-
+  GITHUB_ACCESS_TOKEN:
+    Type: String
 Globals:
   Function:
     Timeout: 3
@@ -23,12 +24,14 @@ Resources:
       Environment:
         Variables:
           REPO_TABLE_NAME: !Ref RepoTable
+          GITHUB_ACCESS_TOKEN: !Ref GITHUB_ACCESS_TOKEN
       Events:
         Cron:
           Type: Schedule
           Properties:
             Schedule: cron(0 12 * * ? *)
             Enabled: True
+            Input: '{ "query": "created:>2019-03-22 stars:>500 language:TypeScript sort:updated" }'
 
   RepoTable:
     Type: AWS::Serverless::SimpleTable

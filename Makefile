@@ -18,7 +18,8 @@ dependencies: $(SOURCE_DIR)/node_modules/.yarn-integrity
 
 start: dependencies guard-ENVIRONMENT
 	yarn --cwd $(SOURCE_DIR) tsc --watch & \
-	REPO_TABLE_NAME=$(shell make table-name) sam local start-lambda
+	REPO_TABLE_NAME=$(shell make table-name) \
+	GITHUB_ACCESS_TOKEN=$(GITHUB_ACCESS_TOKEN) sam local start-lambda
 
 invoke:
 	@aws lambda invoke \
@@ -40,13 +41,13 @@ test: dependencies
 create-bucket: guard-ENVIRONMENT
 	@aws s3 mb s3://$(BUCKET_NAME)
 
-deploy: build guard-ENVIRONMENT
+deploy: build guard-ENVIRONMENT guard-GITHUB_ACCESS_TOKEN
 	@sam package --output-template-file packaged.yaml --s3-bucket $(BUCKET_NAME)
 	@sam deploy \
 		--template-file packaged.yaml \
 		--stack-name ${STACK_NAME} \
 		--capabilities CAPABILITY_IAM \
-		--parameter-overrides ENVIRONMENT=${ENVIRONMENT}
+		--parameter-overrides ENVIRONMENT=${ENVIRONMENT} GITHUB_ACCESS_TOKEN=${{ env.GITHUB_ACCESS_TOKEN}}
 	@aws cloudformation describe-stacks \
 		--stack-name ${STACK_NAME} \
 		--query 'Stacks[].Outputs' \
