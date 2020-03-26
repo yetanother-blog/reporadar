@@ -46,7 +46,7 @@ deploy: build guard-ENVIRONMENT guard-GITHUB_ACCESS_TOKEN
 	@sam deploy \
 		--template-file packaged.yaml \
 		--stack-name ${STACK_NAME} \
-		--capabilities CAPABILITY_IAM \
+		--capabilities CAPABILITY_NAMED_IAM \
 		--parameter-overrides Environment=${ENVIRONMENT} GitHubAccessToken=${{ env.GITHUB_ACCESS_TOKEN}}
 	@aws cloudformation describe-stacks \
 		--stack-name ${STACK_NAME} \

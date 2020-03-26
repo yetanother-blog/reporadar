@@ -42,6 +42,112 @@ Resources:
       SSESpecification:
         SSEEnabled: true
 
+  DynamoDBRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub reporadar-appsync-dynamodb-role-${Environment}
+      ManagedPolicyArns:
+        - Ref: AppSyncDynamoDBPolicy
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - sts:AssumeRole
+            Principal:
+              Service:
+                - appsync.amazonaws.com
+    DependsOn:
+      - AppSyncDynamoDBPolicy
+
+  AppSyncDynamoDBPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Managed policy to allow AWS AppSync to access the tables created by this template.
+      Path: /appsync/
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - dynamodb:GetItem
+              - dynamodb:PutItem
+              - dynamodb:DeleteItem
+              - dynamodb:UpdateItem
+              - dynamodb:Query
+              - dynamodb:Scan
+              - dynamodb:BatchGetItem
+              - dynamodb:BatchWriteItem
+            Resource: !Join ["", [!GetAtt RepoTable.Arn, "*"]]
+
+  GraphQLApi:
+    Type: AWS::AppSync::GraphQLApi
+    Properties:
+      Name: RepoRadar GraphQL API
+      AuthenticationType: AWS_IAM
+
+  RepoTableDataSource:
+    Type: "AWS::AppSync::DataSource"
+    Properties:
+      ApiId: !GetAtt GraphQLApi.ApiId
+      Name: RepoTableDataSource
+      Type: AMAZON_DYNAMODB
+      ServiceRoleArn: !GetAtt DynamoDBRole.Arn
+      DynamoDBConfig:
+        AwsRegion: !Ref "AWS::Region"
+        TableName: !Ref RepoTable
+
+  QueryAllReposResolver:
+    Type: AWS::AppSync::Resolver
+    DependsOn: Schema
+    Properties:
+      ApiId: !GetAtt GraphQLApi.ApiId
+      TypeName: Query
+      FieldName: allRepos
+      DataSourceName: !GetAtt RepoTableDataSource.Name
+      RequestMappingTemplate: |
+        {
+            "version" : "2017-02-28",
+            "operation" : "Scan",
+            #if( $ctx.args.limit )
+                "limit": $ctx.args.limit,
+            #end
+            #if( ${ctx.args.nextToken} )
+                "nextToken": "${ctx.args.nextToken}"
+            #end
+        }
+      ResponseMappingTemplate: |
+        {
+            "repos": $utils.toJson($ctx.result.items),
+            #if( ${ctx.result.nextToken} )
+                "nextToken": "${ctx.result.nextToken}",
+            #end
+        }
+
+  Schema:
+    Type: AWS::AppSync::GraphQLSchema
+    Properties:
+      ApiId: !GetAtt GraphQLApi.ApiId
+      Definition: |
+        type Repo {
+          id: String!
+          description: String!
+          url: String!
+        }
+
+        type AllReposResponse {
+          repos: [Repo!]!
+          nextToken: String
+        }
+
+        type Query {
+          allRepos(limit: Int, nextToken: String): AllReposResponse!
+        }
+
+        schema {
+          query: Query
+        }
+
 Outputs:
   RepoTableName:
     Description: "Name of the DynamoDB database"
