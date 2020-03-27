@@ -7,6 +7,7 @@ Parameters:
     Type: String
   GitHubAccessToken:
     Type: String
+
 Globals:
   Function:
     Timeout: 3
@@ -161,8 +162,28 @@ Resources:
         Enabled: true
         HttpVersion: http2
         Origins:
-          - DomainName: zx2w6n7zybac7punu3bvigih4i.appsync-api.eu-west-1.amazonaws.com
-            Id: zx2w6n7zybac7punu3bvigih4i.appsync-api.eu-west-1.amazonaws.com
+          - DomainName:
+              !Select [
+                0,
+                !Split [
+                  "/",
+                  !Select [
+                    1,
+                    !Split ["https://", !GetAtt GraphQLApi.GraphQLUrl],
+                  ],
+                ],
+              ]
+            Id:
+              !Select [
+                0,
+                !Split [
+                  "/",
+                  !Select [
+                    1,
+                    !Split ["https://", !GetAtt GraphQLApi.GraphQLUrl],
+                  ],
+                ],
+              ]
             OriginCustomHeaders:
               - HeaderName: x-api-key
                 HeaderValue: !GetAtt GraphQLApiApiKey.ApiKey
@@ -179,7 +200,14 @@ Resources:
             QueryString: false
           SmoothStreaming: false
           Compress: true
-          TargetOriginId: zx2w6n7zybac7punu3bvigih4i.appsync-api.eu-west-1.amazonaws.com
+          TargetOriginId:
+            !Select [
+              0,
+              !Split [
+                "/",
+                !Select [1, !Split ["https://", !GetAtt GraphQLApi.GraphQLUrl]],
+              ],
+            ]
           ViewerProtocolPolicy: redirect-to-https
         PriceClass: PriceClass_100
 
