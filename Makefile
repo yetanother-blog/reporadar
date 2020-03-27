@@ -3,23 +3,31 @@ include .env
 
 AWS_REGION=eu-west-1
 AWS_DEFAULT_REGION=eu-west-1
-SOURCE_DIR=reporadar
+API_SOURCE_DIR=api
+FE_SOURCE_DIR=frontend
 BUCKET_NAME=reporadar-bucket-$(AWS_REGION)-$(ENVIRONMENT)
 STACK_NAME=reporadar-$(ENVIRONMENT)
 
 export AWS_REGION
 export AWS_DEFAULT_REGION
 
-$(SOURCE_DIR)/node_modules/.yarn-integrity: $(SOURCE_DIR)/yarn.lock
-	yarn --cwd $(SOURCE_DIR)
+$(API_SOURCE_DIR)/node_modules/.yarn-integrity: $(API_SOURCE_DIR)/yarn.lock
+	yarn --cwd $(API_SOURCE_DIR)
 	@touch $@
 
-dependencies: $(SOURCE_DIR)/node_modules/.yarn-integrity
+$(FE_SOURCE_DIR)/node_modules/.yarn-integrity: $(FE_SOURCE_DIR)/yarn.lock
+	yarn --cwd $(FE_SOURCE_DIR)
+	@touch $@
 
-start: dependencies guard-ENVIRONMENT
-	yarn --cwd $(SOURCE_DIR) tsc --watch & \
+dependencies: $(API_SOURCE_DIR)/node_modules/.yarn-integrity $(FE_SOURCE_DIR)/node_modules/.yarn-integrity
+
+start-api: dependencies guard-ENVIRONMENT
+	yarn --cwd $(API_SOURCE_DIR) tsc --watch & \
 	REPO_TABLE_NAME=$(shell make table-name) \
 	GITHUB_ACCESS_TOKEN=$(GITHUB_ACCESS_TOKEN) sam local start-lambda
+
+start-fe:
+	yarn --cwd $(FE_SOURCE_DIR) start
 
 invoke:
 	@aws lambda invoke \
@@ -29,14 +37,20 @@ invoke:
 		--no-verify-ssl response.json
 
 build: dependencies
-	yarn --cwd $(SOURCE_DIR) build
+	yarn --cwd $(API_SOURCE_DIR) build
+	yarn --cwd $(FE_SOURCE_DIR) build
 
-test: dependencies
+test: test-api test-fe
+
+test-api: dependencies
 	@ if [ "${CI}" = "true" ]; then \
-			yarn --cwd $(SOURCE_DIR) test; \
+			yarn --cwd $(API_SOURCE_DIR) test; \
 	else \
-		yarn --cwd $(SOURCE_DIR) test --watch; \
+		yarn --cwd $(API_SOURCE_DIR) test --watch; \
 	fi
+
+test-fe:
+	yarn --cwd $(FE_SOURCE_DIR) test
 
 create-bucket: guard-ENVIRONMENT
 	@aws s3 mb s3://$(BUCKET_NAME)
@@ -47,7 +61,8 @@ deploy: build guard-ENVIRONMENT guard-GITHUB_ACCESS_TOKEN
 		--template-file packaged.yaml \
 		--stack-name ${STACK_NAME} \
 		--capabilities CAPABILITY_NAMED_IAM \
-		--parameter-overrides Environment=${ENVIRONMENT} GitHubAccessToken=${{ env.GITHUB_ACCESS_TOKEN}}
+		--parameter-overrides Environment=${ENVIRONMENT} GitHubAccessToken=${{ env.GITHUB_ACCESS_TOKEN}} \
+		--no-fail-on-empty-changeset
 	@aws cloudformation describe-stacks \
 		--stack-name ${STACK_NAME} \
 		--query 'Stacks[].Outputs' \

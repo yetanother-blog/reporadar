@@ -18,15 +18,22 @@ jobs:
         uses: actions/setup-node@v1.1.0
         with:
           version: 12
-      - name: Cache node modules
+      - name: Cache api node modules
         uses: actions/cache@v1
         with:
-          path: reporadar/node_modules
-          key: ${{ runner.OS }}-build-${{ hashFiles('reporadar/yarn.lock') }}-${{ env.CACHE_VERSION }}
+          path: api/node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('api/yarn.lock') }}-${{ env.CACHE_VERSION }}
+      - name: Cache frontend node modules
+        uses: actions/cache@v1
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('frontend/yarn.lock') }}-${{ env.CACHE_VERSION }}
       - name: Install dependencies
         run: make dependencies
-      - name: Is the reporadar/yarn.lock up-to-date?
-        run: git diff --exit-code reporadar/yarn.lock
+      - name: Is the api/yarn.lock up-to-date?
+        run: git diff --exit-code api/yarn.lock
+      - name: Is the frontend/yarn.lock up-to-date?
+        run: git diff --exit-code frontend/yarn.lock
 
   build:
     runs-on: ubuntu-latest
@@ -37,11 +44,16 @@ jobs:
         uses: actions/setup-node@v1.1.0
         with:
           version: 12
-      - name: Cache node modules
+      - name: Cache api node modules
         uses: actions/cache@v1
         with:
-          path: reporadar/node_modules
-          key: ${{ runner.OS }}-build-${{ hashFiles('reporadar/yarn.lock') }}-${{ env.CACHE_VERSION }}
+          path: api/node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('api/yarn.lock') }}-${{ env.CACHE_VERSION }}
+      - name: Cache frontend node modules
+        uses: actions/cache@v1
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('frontend/yarn.lock') }}-${{ env.CACHE_VERSION }}
       - name: Build TS
         run: make build
 
@@ -54,13 +66,18 @@ jobs:
         uses: actions/setup-node@v1.1.0
         with:
           version: 12
-      - name: Cache node modules
+      - name: Cache api node modules
         uses: actions/cache@v1
         with:
-          path: reporadar/node_modules
-          key: ${{ runner.OS }}-build-${{ hashFiles('reporadar/yarn.lock') }}-${{ env.CACHE_VERSION }}
-      - name: Run unit tests
-        run: echo "No tests for now!"
+          path: api/node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('api/yarn.lock') }}-${{ env.CACHE_VERSION }}
+      - name: Cache frontend node modules
+        uses: actions/cache@v1
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('frontend/yarn.lock') }}-${{ env.CACHE_VERSION }}
+      - name: Run tests
+        run: make test
 
   deploy-staging:
     runs-on: ubuntu-latest
@@ -85,6 +102,11 @@ jobs:
         with:
           path: reporadar/node_modules
           key: ${{ runner.OS }}-build-${{ hashFiles('reporadar/yarn.lock') }}-${{ env.CACHE_VERSION }}
+      - name: Cache frontend node modules
+        uses: actions/cache@v1
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('frontend/yarn.lock') }}-${{ env.CACHE_VERSION }}
       - name: Build TS
         run: make build
       - name: Package sam
@@ -94,7 +116,7 @@ jobs:
       - name: Deploy
         uses: apex/actions/aws/sam@master
         with:
-          args: deploy --template-file packaged.yaml --stack-name reporadar-${{ env.ENVIRONMENT}} --capabilities CAPABILITY_NAMED_IAM --parameter-overrides Environment=${{ env.ENVIRONMENT}} GitHubAccessToken=${{ secrets.GITHUB_ACCESS_TOKEN}}
+          args: deploy --template-file packaged.yaml --stack-name reporadar-${{ env.ENVIRONMENT}} --capabilities CAPABILITY_NAMED_IAM --parameter-overrides Environment=${{ env.ENVIRONMENT}} GitHubAccessToken=${{ secrets.GITHUB_ACCESS_TOKEN}} --no-fail-on-empty-changeset
 
   deploy-prod:
     runs-on: ubuntu-latest
@@ -117,8 +139,13 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v1
         with:
-          path: reporadar/node_modules
-          key: ${{ runner.OS }}-build-${{ hashFiles('reporadar/yarn.lock') }}-${{ env.CACHE_VERSION }}
+          path: api/node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('api/yarn.lock') }}-${{ env.CACHE_VERSION }}
+      - name: Cache frontend node modules
+        uses: actions/cache@v1
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('frontend/yarn.lock') }}-${{ env.CACHE_VERSION }}
       - name: Build TS
         run: make build
       - name: Package sam
@@ -128,4 +155,4 @@ jobs:
       - name: Deploy
         uses: apex/actions/aws/sam@master
         with:
-          args: deploy --template-file packaged.yaml --stack-name reporadar-${{ env.ENVIRONMENT}} --capabilities CAPABILITY_NAMED_IAM --parameter-overrides Environment=${{ env.ENVIRONMENT}} GitHubAccessToken=${{ secrets.GITHUB_ACCESS_TOKEN}}
+          args: deploy --template-file packaged.yaml --stack-name reporadar-${{ env.ENVIRONMENT}} --capabilities CAPABILITY_NAMED_IAM --parameter-overrides Environment=${{ env.ENVIRONMENT}} GitHubAccessToken=${{ secrets.GITHUB_ACCESS_TOKEN}} --no-fail-on-empty-changeset
