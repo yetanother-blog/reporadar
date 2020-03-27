@@ -83,8 +83,14 @@ Resources:
   GraphQLApi:
     Type: AWS::AppSync::GraphQLApi
     Properties:
-      Name: RepoRadar GraphQL API
-      AuthenticationType: AWS_IAM
+      Name: RepoRadar GraphQL API (${!Ref Environment})
+      AuthenticationType: API_KEY
+
+  GraphQLApiApiKey:
+    Type: AWS::AppSync::ApiKey
+    Properties:
+      Description: RepoRadar GraphQL API Key
+      ApiId: !GetAtt GraphQLApi.ApiId
 
   RepoTableDataSource:
     Type: "AWS::AppSync::DataSource"
@@ -148,7 +154,40 @@ Resources:
           query: Query
         }
 
+  Distribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        HttpVersion: http2
+        Origins:
+          - DomainName: zx2w6n7zybac7punu3bvigih4i.appsync-api.eu-west-1.amazonaws.com
+            Id: zx2w6n7zybac7punu3bvigih4i.appsync-api.eu-west-1.amazonaws.com
+            OriginCustomHeaders:
+              - HeaderName: x-api-key
+                HeaderValue: !GetAtt GraphQLApiApiKey.ApiKey
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginKeepaliveTimeout: 5
+              OriginReadTimeout: 30
+              OriginProtocolPolicy: https-only
+              OriginSSLProtocols: [TLSv1, TLSv1.1, TLSv1.2]
+        DefaultCacheBehavior:
+          AllowedMethods: [HEAD, DELETE, POST, GET, OPTIONS, PUT, PATCH]
+          ForwardedValues:
+            QueryString: false
+          SmoothStreaming: false
+          Compress: true
+          TargetOriginId: zx2w6n7zybac7punu3bvigih4i.appsync-api.eu-west-1.amazonaws.com
+          ViewerProtocolPolicy: redirect-to-https
+        PriceClass: PriceClass_100
+
 Outputs:
   RepoTableName:
     Description: "Name of the DynamoDB database"
     Value: !Ref RepoTable
+
+  GraphQLApiUrl:
+    Description: Endpoint of the public GraphQL API
+    Value: !Sub https://${Distribution.DomainName}/graphql
