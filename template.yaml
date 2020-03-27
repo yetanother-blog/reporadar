@@ -16,7 +16,7 @@ Resources:
   RepoRadar:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: reporadar/
+      CodeUri: api/
       Handler: src/app.handler
       Runtime: nodejs12.x
       Policies:
@@ -84,7 +84,7 @@ Resources:
   GraphQLApi:
     Type: AWS::AppSync::GraphQLApi
     Properties:
-      Name: RepoRadar GraphQL API (${!Ref Environment})
+      Name: !Sub RepoRadar GraphQL API (${Environment})
       AuthenticationType: API_KEY
 
   GraphQLApiApiKey:

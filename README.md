@@ -17,7 +17,7 @@ We use a hybrid solution for the dev setup: Thanks to SAM, we can execute the La
 1. Create a `.env` file (see `.env-template`)
 2. Create a S3 bucket for the CloudFormation stack: `make create-bucket`
 3. Deploy your stack: `make deploy`
-4. Start the lambda functions locally: `make start`
+4. Start the lambda functions locally: `make start-api`
 5. Invoke the lambda functions: `make invoke`
 
 ## Resources
