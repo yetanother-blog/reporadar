@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: reporadar-${!Ref Environment}
+Description: !Sub reporadar-${Environment}
 
 Parameters:
   Environment:
@@ -155,10 +155,11 @@ Resources:
           query: Query
         }
 
-  Distribution:
+  ApiDistribution:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
+        Comment: !Sub RepoRadar API Distributon (${Environment})
         Enabled: true
         HttpVersion: http2
         Origins:
@@ -211,6 +212,59 @@ Resources:
           ViewerProtocolPolicy: redirect-to-https
         PriceClass: PriceClass_100
 
+  FrontendBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub reporadar-${Environment}
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: 404.html
+    DeletionPolicy: Retain
+
+  FrontendBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref FrontendBucket
+      PolicyDocument:
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: "*"
+            Action: s3:GetObject
+            Resource: !Join ["", ["arn:aws:s3:::", !Ref FrontendBucket, /*]]
+
+  FrontendDistribution:
+    Type: AWS::CloudFront::Distribution
+    DependsOn:
+      - FrontendBucket
+    Properties:
+      DistributionConfig:
+        Comment: !Sub RepoRadar Frontend Distributon (${Environment})
+        Origins:
+          - DomainName:
+              !Select [2, !Split ["/", !GetAtt FrontendBucket.WebsiteURL]]
+            Id: S3Origin
+            CustomOriginConfig:
+              HTTPPort: "80"
+              HTTPSPort: "443"
+              OriginProtocolPolicy: http-only
+        Enabled: true
+        HttpVersion: http2
+        DefaultRootObject: index.html
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - GET
+            - HEAD
+          Compress: true
+          TargetOriginId: S3Origin
+          ForwardedValues:
+            QueryString: true
+            Cookies:
+              Forward: none
+          ViewerProtocolPolicy: redirect-to-https
+        PriceClass: PriceClass_100
+
 Outputs:
   RepoTableName:
     Description: "Name of the DynamoDB database"
@@ -218,4 +272,12 @@ Outputs:
 
   GraphQLApiUrl:
     Description: Endpoint of the public GraphQL API
-    Value: !Sub https://${Distribution.DomainName}/graphql
+    Value: !Sub https://${ApiDistribution.DomainName}/graphql
+
+  FrontendBucket:
+    Description: Name of the s3 frontend bucket
+    Value: !Ref FrontendBucket
+
+  FrontendUrl:
+    Description: Url for the frontend
+    Value: !Sub https://${FrontendDistribution.DomainName}

@@ -55,23 +55,30 @@ test-fe:
 create-bucket: guard-ENVIRONMENT
 	@aws s3 mb s3://$(BUCKET_NAME)
 
-deploy: build guard-ENVIRONMENT guard-GITHUB_ACCESS_TOKEN
+deploy-api: guard-ENVIRONMENT guard-GITHUB_ACCESS_TOKEN
 	@sam package --output-template-file packaged.yaml --s3-bucket $(BUCKET_NAME)
 	@sam deploy \
 		--template-file packaged.yaml \
 		--stack-name ${STACK_NAME} \
 		--capabilities CAPABILITY_NAMED_IAM \
-		--parameter-overrides Environment=${ENVIRONMENT} GitHubAccessToken=${{ env.GITHUB_ACCESS_TOKEN}} \
+		--parameter-overrides Environment=${ENVIRONMENT} GitHubAccessToken=${GITHUB_ACCESS_TOKEN} \
 		--no-fail-on-empty-changeset
-	@aws cloudformation describe-stacks \
-		--stack-name ${STACK_NAME} \
-		--query 'Stacks[].Outputs' \
-		--output table
+
+deploy-fe:
+	aws s3 sync ${FE_SOURCE_DIR}/build/ s3://${shell make frontend-bucket}/
+
+deploy: build deploy-api deploy-fe
 
 table-name:
 	@aws cloudformation describe-stacks \
 		--stack-name ${STACK_NAME} \
 		--query 'Stacks[].Outputs[?OutputKey==`RepoTableName`].OutputValue' \
+		--output text
+
+frontend-bucket:
+	@aws cloudformation describe-stacks \
+		--stack-name ${STACK_NAME} \
+		--query 'Stacks[].Outputs[?OutputKey==`FrontendBucket`].OutputValue' \
 		--output text
 
 guard-%:
