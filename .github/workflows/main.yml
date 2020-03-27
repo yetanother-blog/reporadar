@@ -76,8 +76,8 @@ jobs:
         with:
           path: frontend/node_modules
           key: ${{ runner.OS }}-build-${{ hashFiles('frontend/yarn.lock') }}-${{ env.CACHE_VERSION }}
-      - name: Run unit tests
-        run: echo "No tests for now!"
+      - name: Run tests
+        run: make test
 
   deploy-staging:
     runs-on: ubuntu-latest
