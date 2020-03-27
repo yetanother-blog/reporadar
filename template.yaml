@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: !Sub reporadar-${Environment}
+Description: CloudFormation stack for RepoRadar
 
 Parameters:
   Environment:
@@ -267,7 +267,7 @@ Resources:
 
 Outputs:
   RepoTableName:
-    Description: "Name of the DynamoDB database"
+    Description: Name of the DynamoDB database
     Value: !Ref RepoTable
 
   GraphQLApiUrl:

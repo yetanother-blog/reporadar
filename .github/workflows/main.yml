@@ -109,13 +109,13 @@ jobs:
           path: frontend/node_modules
           key: ${{ runner.OS }}-build-${{ hashFiles('frontend/yarn.lock') }}-${{ env.CACHE_VERSION }}
       - name: Install SAM
-        run: pip install aws-sam-cli
+        run: pip install --upgrade pip pyyaml && pip install setuptools awscli aws-sam-cli
       - name: Deploy
-        run: make deploy
+        run: PATH="/home/runner/.local/bin:$PATH" make deploy
 
   deploy-prod:
     runs-on: ubuntu-latest
-    needs: [dependencies, build, test]
+    needs: [dependencies, build, test, deploy-staging]
     if: github.ref == 'refs/heads/master'
     env:
       AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
@@ -143,6 +143,6 @@ jobs:
           path: frontend/node_modules
           key: ${{ runner.OS }}-build-${{ hashFiles('frontend/yarn.lock') }}-${{ env.CACHE_VERSION }}
       - name: Install SAM
-        run: pip install aws-sam-cli
+        run: pip install --upgrade pip pyyaml && pip install setuptools awscli aws-sam-cli
       - name: Deploy
-        run: make deploy
+        run: PATH="/home/runner/.local/bin:$PATH" make deploy
