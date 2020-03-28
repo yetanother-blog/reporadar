@@ -2,5 +2,5 @@
 node_modules
 *.js
 packaged.yaml
-.env
+/.env
 response.json
