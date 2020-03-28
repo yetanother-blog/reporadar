@@ -56,7 +56,7 @@ test-fe:
 	yarn --cwd $(FE_SOURCE_DIR) test
 
 invalidate-fe-cache:
-	aws cloudfront create-invalidation --distribution-id ${shell make frontend-distribution-id} --paths \"/*\"
+	aws cloudfront create-invalidation --distribution-id ${shell make frontend-distribution-id} --paths "/*"
 
 create-bucket: guard-ENVIRONMENT
 	@aws s3 mb s3://$(BUCKET_NAME)
