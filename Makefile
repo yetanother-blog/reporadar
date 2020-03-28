@@ -29,6 +29,9 @@ start-api: dependencies guard-ENVIRONMENT
 start-fe:
 	yarn --cwd $(FE_SOURCE_DIR) start
 
+generate-graphql:
+	yarn --cwd $(FE_SOURCE_DIR) generate
+
 invoke:
 	@aws lambda invoke \
 		--function-name "RepoRadar" \

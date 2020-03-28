@@ -1,24 +1,12 @@
 import React from "react";
+import { ApolloProvider } from "@apollo/react-hooks";
+import { client } from "./utils/apollo";
+import { RepoList } from "./containers/RepoList/RepoList";
 
-function App() {
+export const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <p>{process.env.REACT_APP_GRAPHQL_API_ENDPOINT}</p>
-      </header>
-    </div>
+    <ApolloProvider client={client}>
+      <RepoList />
+    </ApolloProvider>
   );
-}
-
-export default App;
+};
