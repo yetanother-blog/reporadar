@@ -15,6 +15,7 @@ function App() {
         >
           Learn React
         </a>
+        <p>{process.env.REACT_APP_GRAPHQL_API_ENDPOINT}</p>
       </header>
     </div>
   );
