@@ -20,7 +20,7 @@
     "prebuild": "yarn generate",
     "build": "react-scripts build",
     "pretest": "yarn generate",
-    "test": "react-scripts test",
+    "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject",
     "generate": "graphql-codegen --config codegen.yml"
   },
