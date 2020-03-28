@@ -274,6 +274,10 @@ Outputs:
     Description: Endpoint of the public GraphQL API
     Value: !Sub https://${ApiDistribution.DomainName}/graphql
 
+  FrontendDistributionId:
+    Description: CloudFront ID for frontend CDN
+    Value: !Ref FrontendDistribution
+
   FrontendBucket:
     Description: Name of the s3 frontend bucket
     Value: !Ref FrontendBucket

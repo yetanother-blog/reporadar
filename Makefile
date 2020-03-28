@@ -55,6 +55,9 @@ test-api: dependencies
 test-fe:
 	yarn --cwd $(FE_SOURCE_DIR) test
 
+invalidate-fe-cache:
+	aws cloudfront create-invalidation --distribution-id ${shell make frontend-distribution-id} --paths \"/*\"
+
 create-bucket: guard-ENVIRONMENT
 	@aws s3 mb s3://$(BUCKET_NAME)
 
@@ -82,6 +85,12 @@ frontend-bucket:
 	@aws cloudformation describe-stacks \
 		--stack-name ${STACK_NAME} \
 		--query 'Stacks[].Outputs[?OutputKey==`FrontendBucket`].OutputValue' \
+		--output text
+
+frontend-distribution-id:
+	@aws cloudformation describe-stacks \
+		--stack-name ${STACK_NAME} \
+		--query 'Stacks[].Outputs[?OutputKey==`FrontendDistributionId`].OutputValue' \
 		--output text
 
 guard-%:
