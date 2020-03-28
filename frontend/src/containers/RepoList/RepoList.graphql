@@ -1,0 +1,9 @@
+query RepoList {
+  allRepos {
+    repos {
+      id
+      description
+      url
+    }
+  }
+}

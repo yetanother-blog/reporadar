@@ -1,0 +1,17 @@
+overwrite: true
+schema: "https://d3ha1p4e7dx2b5.cloudfront.net/graphql"
+documents: "src/**/*.graphql"
+generates:
+  src/generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+    config:
+      withHooks: true
+      withHOC: false
+      withComponent: false
+      withMutationFn: false
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"
