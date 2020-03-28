@@ -19,6 +19,7 @@
     "start": "react-scripts start",
     "prebuild": "yarn generate",
     "build": "react-scripts build",
+    "pretest": "yarn generate",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "generate": "graphql-codegen --config codegen.yml"
