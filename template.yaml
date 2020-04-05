@@ -7,6 +7,8 @@ Parameters:
     Type: String
   GitHubAccessToken:
     Type: String
+  GraphQLApiKeyExpirationDate:
+    Type: String
 
 Globals:
   Function:
@@ -87,11 +89,12 @@ Resources:
       Name: !Sub RepoRadar GraphQL API (${Environment})
       AuthenticationType: API_KEY
 
-  GraphQLApiApiKey:
+  GraphQLApiApiKey3:
     Type: AWS::AppSync::ApiKey
     Properties:
-      Description: RepoRadar GraphQL API Key
+      Description: !Sub RepoRadar GraphQL API Key (${GraphQLApiKeyExpirationDate})
       ApiId: !GetAtt GraphQLApi.ApiId
+      Expires: !Ref GraphQLApiKeyExpirationDate
 
   RepoTableDataSource:
     Type: "AWS::AppSync::DataSource"
@@ -187,7 +190,7 @@ Resources:
               ]
             OriginCustomHeaders:
               - HeaderName: x-api-key
-                HeaderValue: !GetAtt GraphQLApiApiKey.ApiKey
+                HeaderValue: !GetAtt GraphQLApiApiKey3.ApiKey
             CustomOriginConfig:
               HTTPPort: 80
               HTTPSPort: 443
