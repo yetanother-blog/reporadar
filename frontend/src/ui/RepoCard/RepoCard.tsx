@@ -29,19 +29,23 @@ export const RepoCard: React.FC<RepoCardProps> = ({
       <CardContent>
         <Box marginBottom={2}>
           <Typography variant="h5" component="h2">
-            {loading ? <Skeleton variant="text" /> : name}
+            {loading ? <Skeleton variant="text" animation="wave" /> : name}
           </Typography>
           <Typography color="textSecondary">
-            {loading ? <Skeleton variant="text" /> : `${stars} stars`}
+            {loading ? (
+              <Skeleton variant="text" animation="wave" />
+            ) : (
+              `${stars} stars`
+            )}
           </Typography>
         </Box>
         <Typography variant="body2" component="p">
-          {loading ? <Skeleton variant="text" /> : description}
+          {loading ? <Skeleton variant="text" animation="wave" /> : description}
         </Typography>
       </CardContent>
       <CardActions>
         {loading ? (
-          <Skeleton variant="rect" width={100} height={30} />
+          <Skeleton variant="rect" width={100} height={30} animation="wave" />
         ) : (
           <Button color="primary" size="small" href={url} target="_blank">
             GitHub
