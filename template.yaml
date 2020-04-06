@@ -12,7 +12,7 @@ Parameters:
 
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 10
 
 Resources:
   RepoRadar:
