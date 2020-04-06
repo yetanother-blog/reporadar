@@ -143,6 +143,8 @@ Resources:
           id: String!
           description: String!
           url: String!
+          numberOfStars: Int!
+          indexedAt: String!
         }
 
         type AllReposResponse {

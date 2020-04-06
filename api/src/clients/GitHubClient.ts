@@ -12,6 +12,9 @@ export interface SearchResponse {
         nameWithOwner: string;
         description: string;
         url: string;
+        stargazers: {
+          totalCount: number;
+        };
       };
     }[];
   };
@@ -30,6 +33,9 @@ export class GitHubClient {
                 nameWithOwner
                 description
                 url
+                stargazers {
+                  totalCount
+                }
               }
             }
           }
@@ -39,7 +45,7 @@ export class GitHubClient {
 
     return this.client.request<SearchResponse>(query, {
       query: options.query,
-      first: options.limit || 10
+      first: options.limit || 10,
     });
   }
 }

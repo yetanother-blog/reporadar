@@ -1,10 +1,11 @@
 import AWS from "aws-sdk";
-import { chunk } from "../utils/chunk";
 
 export interface Repo {
   id: string;
   description: string;
   url: string;
+  numberOfStars: number;
+  indexedAt: string;
 }
 
 export class RepoRepository {
@@ -13,25 +14,21 @@ export class RepoRepository {
     private tableName: string
   ) {}
 
-  batchWrite(repos: Repo[]) {
-    const putRequests = repos.map(repo => ({
-      PutRequest: {
-        Item: repo
-      }
-    }));
-
-    const chunks = chunk(putRequests, 25);
-
+  async batchWrite(repos: Repo[]) {
     return Promise.all(
-      chunks.map(chunk =>
+      repos.map((repo) =>
         this.dynamoDBClient
-          .batchWrite({
-            RequestItems: {
-              [this.tableName]: chunk
-            }
+          .put({
+            TableName: this.tableName,
+            Item: repo,
+            ConditionExpression: "attribute_not_exists(id)",
           })
           .promise()
       )
-    );
+    ).catch((err) => {
+      if (err.message !== "The conditional request failed") {
+        throw err;
+      }
+    });
   }
 }
