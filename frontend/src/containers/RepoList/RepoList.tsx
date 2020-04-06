@@ -26,7 +26,7 @@ export const RepoList: React.FC = () => {
           name={repo.id}
           description={repo.description}
           url={repo.url}
-          stars={0}
+          stars={repo.numberOfStars}
         />
       ))}
     </RepoCardList>

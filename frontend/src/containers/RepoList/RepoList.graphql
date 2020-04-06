@@ -4,6 +4,7 @@ query RepoList {
       id
       description
       url
+      numberOfStars
     }
   }
 }
