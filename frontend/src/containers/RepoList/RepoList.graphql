@@ -5,6 +5,7 @@ query RepoList {
       description
       url
       numberOfStars
+      indexedAt
     }
   }
 }
