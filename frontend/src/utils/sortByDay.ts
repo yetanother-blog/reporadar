@@ -8,7 +8,7 @@ export function sortByDay<D extends string, R>(
     (prev, curr) => {
       const time = new Date(curr[dateField]);
 
-      time.setHours(1);
+      time.setHours(0);
       time.setMinutes(0);
       time.setMilliseconds(0);
 

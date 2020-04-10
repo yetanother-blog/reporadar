@@ -25,15 +25,15 @@ describe("sortByDay", () => {
     const rawData = [entity1, entity2, entity3, entity4];
     const sortedData = [
       {
-        time: new Date("2020-03-15").toISOString(),
+        time: new Date("2020-03-15 00:00").toISOString(),
         entities: [entity1, entity2]
       },
       {
-        time: new Date("2020-03-10").toISOString(),
+        time: new Date("2020-03-10 00:00").toISOString(),
         entities: [entity3]
       },
       {
-        time: new Date("2020-01-01").toISOString(),
+        time: new Date("2020-01-01 00:00").toISOString(),
         entities: [entity4]
       }
     ];
