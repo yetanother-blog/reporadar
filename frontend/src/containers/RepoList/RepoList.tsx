@@ -9,10 +9,10 @@ export const RepoList: React.FC = () => {
 
   if (loading) {
     return (
-      <RepoCardList time="2020-01-01">
-        <RepoCard name="" description="" url="" stars={0} loading={true} />
-        <RepoCard name="" description="" url="" stars={0} loading={true} />
-        <RepoCard name="" description="" url="" stars={0} loading={true} />
+      <RepoCardList time="2020-01-01" isLoading>
+        <RepoCard name="" description="" url="" stars={0} loading />
+        <RepoCard name="" description="" url="" stars={0} loading />
+        <RepoCard name="" description="" url="" stars={0} loading />
       </RepoCardList>
     );
   }
