@@ -37,11 +37,30 @@ Resources:
             Input: '{ "query": "created:>2019-03-22 stars:>500 language:TypeScript sort:updated" }'
 
   RepoTable:
-    Type: AWS::Serverless::SimpleTable
+    Type: AWS::DynamoDB::Table
     Properties:
-      PrimaryKey:
-        Name: id
-        Type: String
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: type
+          AttributeType: S
+        - AttributeName: indexedAt
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: type-indexedAt-index
+          KeySchema:
+            - AttributeName: type
+              KeyType: HASH
+            - AttributeName: indexedAt
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      StreamSpecification:
+        StreamViewType: NEW_IMAGE
+      BillingMode: PAY_PER_REQUEST
       SSESpecification:
         SSEEnabled: true
 
@@ -118,7 +137,20 @@ Resources:
       RequestMappingTemplate: |
         {
             "version" : "2017-02-28",
-            "operation" : "Scan",
+            "operation" : "Query",
+            "query" : {
+                "expression" : "#type = :type",
+                "expressionNames": {
+                  "#type": "type"
+                },
+                "expressionValues" : {
+                    ":type" : {
+                      "S" : "REPO"
+                    }
+                }
+            },
+            "index": "type-indexedAt-index",
+            "scanIndexForward": false,
             #if( $ctx.args.limit )
                 "limit": $ctx.args.limit,
             #end
