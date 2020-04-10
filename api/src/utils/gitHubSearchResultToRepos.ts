@@ -10,5 +10,6 @@ export function gitHubSearchResultToRepos(
     url: result.node.url,
     numberOfStars: result.node.stargazers.totalCount,
     indexedAt: new Date().toISOString(),
+    type: "REPO",
   }));
 }

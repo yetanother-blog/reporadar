@@ -6,6 +6,7 @@ export interface Repo {
   url: string;
   numberOfStars: number;
   indexedAt: string;
+  type: "REPO";
 }
 
 export class RepoRepository {
