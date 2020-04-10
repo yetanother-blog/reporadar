@@ -7,10 +7,7 @@ export function sortByDay<D extends string, R>(
   return entities.reduce<{ time: string; entities: Entity<D, R>[] }[]>(
     (prev, curr) => {
       const time = new Date(curr[dateField]);
-
-      time.setHours(0);
-      time.setMinutes(0);
-      time.setMilliseconds(0);
+      time.setUTCHours(0, 0, 0, 0);
 
       const lastDay = prev[prev.length - 1];
       if (lastDay && lastDay.time === time.toISOString()) {

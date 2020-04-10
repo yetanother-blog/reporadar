@@ -4,36 +4,36 @@ describe("sortByDay", () => {
   it("should sort properly", () => {
     const entity1 = {
       id: 1,
-      createdAt: new Date("2020-03-15 06:00").toISOString()
+      createdAt: "2020-02-15T06:00:00.000Z"
     };
 
     const entity2 = {
       id: 2,
-      createdAt: new Date("2020-03-15 01:00").toISOString()
+      createdAt: "2020-02-15T01:00:00.000Z"
     };
 
     const entity3 = {
       id: 3,
-      createdAt: new Date("2020-03-10 11:54").toISOString()
+      createdAt: "2020-03-10T11:54:00.000Z"
     };
 
     const entity4 = {
       id: 4,
-      createdAt: new Date("2020-01-01 20:08").toISOString()
+      createdAt: "2020-01-02T20:08:00.000Z"
     };
 
     const rawData = [entity1, entity2, entity3, entity4];
     const sortedData = [
       {
-        time: new Date("2020-03-15 00:00").toISOString(),
+        time: "2020-02-15T00:00:00.000Z",
         entities: [entity1, entity2]
       },
       {
-        time: new Date("2020-03-10 00:00").toISOString(),
+        time: "2020-03-10T00:00:00.000Z",
         entities: [entity3]
       },
       {
-        time: new Date("2020-01-01 00:00").toISOString(),
+        time: "2020-01-02T00:00:00.000Z",
         entities: [entity4]
       }
     ];

@@ -13,15 +13,16 @@ export const RepoCardList: React.FC<RepoCardListProps> = ({
   time,
   isLoading
 }) => {
+  const isToday = moment(time).isSame(Date.now(), "day");
+  const label = isToday ? "Today" : moment(time, "YYYYMMDD").fromNow();
+
   return (
     <Box marginBottom={4}>
-      <Typography variant="h4" gutterBottom>
-        {isLoading ? (
-          <Skeleton variant="text" animation="wave" />
-        ) : (
-          moment(time, "YYYYMMDD").fromNow()
-        )}
-      </Typography>
+      <Box marginBottom={2}>
+        <Typography variant="h4">
+          {isLoading ? <Skeleton variant="text" animation="wave" /> : label}
+        </Typography>
+      </Box>
       <Grid container direction="column" spacing={3}>
         {React.Children.map(children, child => (
           <Grid item>{child}</Grid>
