@@ -1,5 +1,5 @@
-query RepoList {
-  allRepos {
+query RepoList($nextToken: String, $limit: Int) {
+  allRepos(nextToken: $nextToken, limit: $limit) {
     repos {
       id
       description
@@ -7,5 +7,6 @@ query RepoList {
       numberOfStars
       indexedAt
     }
+    nextToken
   }
 }
