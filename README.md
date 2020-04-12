@@ -2,8 +2,8 @@
 
 [![](https://github.com/yetanother-blog/reporadar/workflows/CI/badge.svg)](https://github.com/yetanother-blog/reporadar/actions)
 
-- [Prod](https://reporader.yetanother.blog)
-- [Staging](https://reporader-staging.yetanother.blog)
+- [Prod](https://reporadar.yetanother.blog)
+- [Staging](https://reporadar-staging.yetanother.blog)
 
 ## Dependencies
 
