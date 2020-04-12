@@ -9,14 +9,24 @@ export interface SearchOptions {
 
 export interface SearchResponse {
   search: {
-    edges: {
-      node: {
-        nameWithOwner: string;
-        description: string;
-        url: string;
-        stargazers: {
-          totalCount: number;
-        };
+    nodes: {
+      nameWithOwner: string;
+      description: string;
+      url: string;
+      stargazers: {
+        totalCount: number;
+      };
+      forkCount: number;
+      homepageUrl?: string;
+      primaryLanguage?: {
+        name: string;
+      };
+      repositoryTopics: {
+        nodes: {
+          topic: {
+            name: string;
+          };
+        }[];
       };
     }[];
   };
@@ -36,17 +46,27 @@ export class GitHubClient {
     const query = `
       query GitHubSearch($query: String!, $first: Int!) {
         search(type: REPOSITORY, query: $query, first: $first) {
-          edges {
-            node {
-              ... on Repository {
+          nodes {
+            ... on Repository {
                 nameWithOwner
                 description
                 url
                 stargazers {
                   totalCount
                 }
+                forkCount
+                primaryLanguage {
+                  name
+                }
+                repositoryTopics(first: 20) {
+                  nodes {
+                    topic {
+                      name
+                    }
+                  }
+                }
+                homepageUrl
               }
-            }
           }
         }
       }

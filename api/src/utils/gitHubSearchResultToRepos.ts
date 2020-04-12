@@ -4,12 +4,27 @@ import { Repo } from "../repositories/RepoRepository";
 export function gitHubSearchResultToRepos(
   searchResult: SearchResponse
 ): Repo[] {
-  return searchResult.search.edges.map((result) => ({
-    id: result.node.nameWithOwner,
-    description: result.node.description,
-    url: result.node.url,
-    numberOfStars: result.node.stargazers.totalCount,
-    indexedAt: new Date().toISOString(),
-    type: "REPO",
-  }));
+  return searchResult.search.nodes.map((result) => {
+    const r: Repo = {
+      id: result.nameWithOwner,
+      description: result.description,
+      url: result.url,
+      numberOfStars: result.stargazers.totalCount,
+      forkCount: result.forkCount,
+      topics: result.repositoryTopics.nodes.map((node) => node.topic.name),
+      indexedAt: new Date().toISOString(),
+      type: "REPO",
+      source: "GITHUB",
+    };
+
+    if (result.homepageUrl) {
+      r.homepageUrl = result.homepageUrl;
+    }
+
+    if (result.primaryLanguage) {
+      r.language = result.primaryLanguage.name;
+    }
+
+    return r;
+  });
 }

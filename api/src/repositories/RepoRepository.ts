@@ -6,7 +6,12 @@ export interface Repo {
   url: string;
   numberOfStars: number;
   indexedAt: string;
+  forkCount: number;
+  homepageUrl?: string;
+  language?: string;
+  topics: string[];
   type: "REPO";
+  source: "GITHUB";
 }
 
 export class RepoRepository {
