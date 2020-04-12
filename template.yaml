@@ -34,7 +34,7 @@ Resources:
           Properties:
             Schedule: cron(0 12 * * ? *)
             Enabled: True
-            Input: '{ "query": "created:>2019-03-22 stars:>500 language:TypeScript sort:updated" }'
+            Input: '{ "query": "stars:>500 language:TypeScript", "last": "12 months", "limit": 100 }'
 
   RepoTable:
     Type: AWS::DynamoDB::Table

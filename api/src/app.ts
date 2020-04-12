@@ -2,10 +2,12 @@ import { guardValue } from "./utils/guardValue";
 import { createGitHubClient } from "./factories/createGitHubClient";
 import { createRepoRepository } from "./factories/createRepoRepository";
 import { gitHubSearchResultToRepos } from "./utils/gitHubSearchResultToRepos";
+import { stringToRelativeTime } from "./repositories/stringToRelativeTime";
 
 interface Event {
   query: string;
   limit: number;
+  last: string;
 }
 
 export const handler = async (event: Partial<Event>) => {
@@ -18,7 +20,8 @@ export const handler = async (event: Partial<Event>) => {
 
   const gitHubSearchResults = await gitHubClient.search({
     query: githubSearchQuery,
-    limit: event.limit
+    limit: event.limit,
+    last: stringToRelativeTime(event.last),
   });
 
   const repos = gitHubSearchResultToRepos(gitHubSearchResults);
