@@ -5,6 +5,10 @@
 - [Prod](https://reporadar.yetanother.blog)
 - [Staging](https://reporadar-staging.yetanother.blog)
 
+## About
+
+![Architecture](docs/architecture.png)
+
 ## Dependencies
 
 - [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-reference.html#serverless-sam-cli)
