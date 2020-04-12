@@ -9,6 +9,8 @@ Parameters:
     Type: String
   GraphQLApiKeyExpirationDate:
     Type: String
+  FrontendDomain:
+    Type: String
 
 Globals:
   Function:
@@ -349,6 +351,8 @@ Resources:
         Enabled: true
         HttpVersion: http2
         DefaultRootObject: index.html
+        Aliases:
+          - !Ref FrontendDomain
         DefaultCacheBehavior:
           AllowedMethods:
             - GET
@@ -361,6 +365,10 @@ Resources:
               Forward: none
           ViewerProtocolPolicy: redirect-to-https
         PriceClass: PriceClass_100
+        ViewerCertificate:
+          AcmCertificateArn: arn:aws:acm:us-east-1:627962498196:certificate/aeede907-2052-464c-b44d-5cfeaabfec1e
+          MinimumProtocolVersion: TLSv1.1_2016
+          SslSupportMethod: sni-only
 
 Outputs:
   RepoTableName:

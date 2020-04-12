@@ -2,6 +2,9 @@
 
 [![](https://github.com/yetanother-blog/reporadar/workflows/CI/badge.svg)](https://github.com/yetanother-blog/reporadar/actions)
 
+- [Prod](https://reporader.yetanother.blog)
+- [Staging](https://reporader-staging.yetanother.blog)
+
 ## Dependencies
 
 - [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-reference.html#serverless-sam-cli)

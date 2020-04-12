@@ -8,6 +8,12 @@ FE_SOURCE_DIR=frontend
 BUCKET_NAME=reporadar-bucket-$(AWS_REGION)-$(ENVIRONMENT)
 STACK_NAME=reporadar-$(ENVIRONMENT)
 
+ifeq ($(ENVIRONMENT),prod)
+	FRONTEND_DOMAIN=reporadar.yetanother.blog
+else
+	FRONTEND_DOMAIN=reporadar-$(ENVIRONMENT).yetanother.blog
+endif
+
 NOW=${shell date -u +%s}
 GRAPHQL_API_KEY_TIME_TO_LIVE=$$(( 60 * 60 * 24 * 365 ))
 GRAPHQL_API_KEY_EXPIRATION_DATE=$$(( $(NOW) + $(GRAPHQL_API_KEY_TIME_TO_LIVE) ))
@@ -71,7 +77,7 @@ deploy-api: guard-ENVIRONMENT guard-GITHUB_ACCESS_TOKEN
 		--template-file packaged.yaml \
 		--stack-name ${STACK_NAME} \
 		--capabilities CAPABILITY_NAMED_IAM \
-		--parameter-overrides Environment=${ENVIRONMENT} GitHubAccessToken=${GITHUB_ACCESS_TOKEN} GraphQLApiKeyExpirationDate=${GRAPHQL_API_KEY_EXPIRATION_DATE} \
+		--parameter-overrides Environment=${ENVIRONMENT} GitHubAccessToken=${GITHUB_ACCESS_TOKEN} GraphQLApiKeyExpirationDate=${GRAPHQL_API_KEY_EXPIRATION_DATE} FrontendDomain=${FRONTEND_DOMAIN} \
 		--no-fail-on-empty-changeset
 
 deploy-fe:
