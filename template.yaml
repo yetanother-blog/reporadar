@@ -32,67 +32,67 @@ Resources:
         TypeScriptLast12MonthsBestMatching:
           Type: Schedule
           Properties:
-            Schedule: cron(0 12 * * ? *)
+            Schedule: cron(0 1 * * ? *)
             Enabled: True
             Input: '{ "query": "stars:>500 language:TypeScript archived:false", "last": "12 months", "limit": 100 }'
         TypeScriptLast12MonthsRecentlyUpdated:
           Type: Schedule
           Properties:
-            Schedule: cron(0 12 * * ? *)
+            Schedule: cron(0 1 * * ? *)
             Enabled: True
             Input: '{ "query": "stars:>500 language:TypeScript archived:false sort:updated", "last": "12 months", "limit": 15 }'
         JavaScriptLast12MonthsBestMatching:
           Type: Schedule
           Properties:
-            Schedule: cron(0 12 * * ? *)
+            Schedule: cron(0 1 * * ? *)
             Enabled: True
             Input: '{ "query": "stars:>500 language:JavaScript archived:false", "last": "12 months", "limit": 100 }'
         JavaScriptLast12MonthsRecentlyUpdated:
           Type: Schedule
           Properties:
-            Schedule: cron(0 12 * * ? *)
+            Schedule: cron(0 1 * * ? *)
             Enabled: True
             Input: '{ "query": "stars:>500 language:JavaScript archived:false sort:updated", "last": "12 months", "limit": 15 }'
         TypeScriptGraphQLLast12MonthsBestMatching:
           Type: Schedule
           Properties:
-            Schedule: cron(0 12 * * ? *)
+            Schedule: cron(0 2 * * ? *)
             Enabled: True
             Input: '{ "query": "stars:>500 language:TypeScript archived:false graphql in:name,description,readme", "last": "12 months", "limit": 100 }'
         TypeScriptReactLast12MonthsBestMatching:
           Type: Schedule
           Properties:
-            Schedule: cron(0 12 * * ? *)
+            Schedule: cron(0 2 * * ? *)
             Enabled: True
             Input: '{ "query": "stars:>500 language:TypeScript archived:false react in:name,description,readme", "last": "12 months", "limit": 100 }'
         SvelteLast12MonthsBestMatching:
           Type: Schedule
           Properties:
-            Schedule: cron(0 12 * * ? *)
+            Schedule: cron(0 2 * * ? *)
             Enabled: True
             Input: '{ "query": "stars:>500 archived:false svelte in:name,description,readme", "last": "12 months", "limit": 100 }'
         DesignSystemLast12MonthsBestMatching:
           Type: Schedule
           Properties:
-            Schedule: cron(0 12 * * ? *)
+            Schedule: cron(0 2 * * ? *)
             Enabled: True
             Input: '{ "query": "stars:>500 archived:false "design system" in:name,description,readme", "last": "12 months", "limit": 100 }'
         JAMStackLast12MonthsBestMatching:
           Type: Schedule
           Properties:
-            Schedule: cron(0 12 * * ? *)
+            Schedule: cron(0 3 * * ? *)
             Enabled: True
             Input: '{ "query": "stars:>500 archived:false jamstack in:name,description,readme", "last": "12 months", "limit": 100 }'
         GeneralLast12MonthsBestMatching:
           Type: Schedule
           Properties:
-            Schedule: cron(0 12 * * ? *)
+            Schedule: cron(0 3 * * ? *)
             Enabled: True
             Input: '{ "query": "stars:>500 archived:false", "last": "12 months", "limit": 100 }'
         GeneralLast12MonthsRecentlyUpdated:
           Type: Schedule
           Properties:
-            Schedule: cron(0 12 * * ? *)
+            Schedule: cron(0 3 * * ? *)
             Enabled: True
             Input: '{ "query": "stars:>500 archived:false sort:updated", "last": "12 months", "limit": 5 }'
 
