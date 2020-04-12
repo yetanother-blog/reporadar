@@ -76,7 +76,7 @@ Resources:
           Properties:
             Schedule: cron(0 2 * * ? *)
             Enabled: True
-            Input: '{ "query": "stars:>500 archived:false "design system" in:name,description,readme", "last": "12 months", "limit": 50 }'
+            Input: '{ "query": "stars:>500 archived:false \"design system\" in:name,description,readme", "last": "12 months", "limit": 50 }'
         JAMStackLast12MonthsBestMatching:
           Type: Schedule
           Properties:
