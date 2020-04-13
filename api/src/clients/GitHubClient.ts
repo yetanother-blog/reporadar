@@ -11,12 +11,12 @@ export interface SearchResponse {
   search: {
     nodes: {
       nameWithOwner: string;
-      description: string;
+      description?: string;
       url: string;
       stargazers: {
         totalCount: number;
       };
-      forkCount: number;
+      forkCount?: number;
       homepageUrl?: string;
       primaryLanguage?: {
         name: string;

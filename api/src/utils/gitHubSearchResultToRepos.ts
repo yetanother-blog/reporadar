@@ -7,10 +7,9 @@ export function gitHubSearchResultToRepos(
   return searchResult.search.nodes.map((result) => {
     const r: Repo = {
       id: result.nameWithOwner,
-      description: result.description,
+      description: result.description || "",
       url: result.url,
       numberOfStars: result.stargazers.totalCount,
-      forkCount: result.forkCount,
       topics: result.repositoryTopics.nodes.map((node) => node.topic.name),
       indexedAt: new Date().toISOString(),
       type: "REPO",
@@ -23,6 +22,10 @@ export function gitHubSearchResultToRepos(
 
     if (result.primaryLanguage) {
       r.language = result.primaryLanguage.name;
+    }
+
+    if (result.forkCount) {
+      r.forkCount = result.forkCount;
     }
 
     return r;

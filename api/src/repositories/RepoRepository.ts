@@ -6,7 +6,7 @@ export interface Repo {
   url: string;
   numberOfStars: number;
   indexedAt: string;
-  forkCount: number;
+  forkCount?: number;
   homepageUrl?: string;
   language?: string;
   topics: string[];
