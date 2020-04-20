@@ -1493,13 +1493,13 @@
     "@graphql-toolkit/schema-merging" "0.9.9"
     tslib "1.11.1"
 
-"@graphql-codegen/introspection@1.13.1":
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/introspection/-/introspection-1.13.1.tgz#4e1c284e36fb573e410833bc047647bced63fd02"
-  integrity sha512-YZUhA0XYVxMYQs5wiiBOMgRAgP0DiA3/TA1W9uPrJF7dCL5JJlss4xzX5x95uRiUntV4ZxrN/6kpfhKagtycRA==
+"@graphql-codegen/introspection@1.13.3":
+  version "1.13.3"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/introspection/-/introspection-1.13.3.tgz#78c61508c66553b75113e38802bec446b544a4e2"
+  integrity sha512-UUyvgI8uj0RA7ca2FLoSTXfWhLuS8mHNvgSftHvPR4SJCXnI005V8jDfNatnD6edyMPnAKlUaUCvwEQE34/Blw==
   dependencies:
-    "@graphql-codegen/plugin-helpers" "1.13.1"
-    tslib "1.11.1"
+    "@graphql-codegen/plugin-helpers" "1.13.3"
+    tslib "~1.11.1"
 
 "@graphql-codegen/plugin-helpers@1.13.1":
   version "1.13.1"
