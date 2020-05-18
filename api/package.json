@@ -13,7 +13,7 @@
     "@ava/babel": "^1.0.1",
     "@types/aws-lambda": "^8.10.50",
     "@types/moment": "^2.13.0",
-    "@types/sinon": "^9.0.0",
+    "@types/sinon": "^9.0.1",
     "ava": "^3.7.1",
     "aws-sdk-mock": "^5.1.0",
     "sinon": "^9.0.2",
