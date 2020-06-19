@@ -48,7 +48,7 @@
     "@graphql-codegen/cli": "^1.15.4",
     "@graphql-codegen/introspection": "1.15.4",
     "@graphql-codegen/typescript": "1.15.4",
-    "@graphql-codegen/typescript-operations": "1.15.3",
+    "@graphql-codegen/typescript-operations": "1.15.4",
     "@graphql-codegen/typescript-react-apollo": "1.15.4",
     "@types/jest": "^26.0.0",
     "@types/moment": "^2.13.0",
