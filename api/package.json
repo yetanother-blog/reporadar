@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@ava/babel": "^1.0.1",
-    "@types/aws-lambda": "^8.10.56",
+    "@types/aws-lambda": "^8.10.57",
     "@types/moment": "^2.13.0",
     "@types/sinon": "^9.0.4",
     "ava": "^3.9.0",
