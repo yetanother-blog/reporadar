@@ -50,7 +50,7 @@
     "@graphql-codegen/typescript": "1.17.9",
     "@graphql-codegen/typescript-operations": "1.17.8",
     "@graphql-codegen/typescript-react-apollo": "1.17.7",
-    "@types/jest": "^26.0.10",
+    "@types/jest": "^26.0.12",
     "@types/moment": "^2.13.0",
     "@types/react-infinite-scroller": "^1.2.1"
   }
