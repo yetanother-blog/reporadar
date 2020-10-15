@@ -13,7 +13,7 @@
     "apollo-boost": "^0.4.9",
     "graphql": "^14.7.0",
     "moment": "^2.29.1",
-    "react": "^16.13.1",
+    "react": "^16.14.0",
     "react-dom": "^16.13.1",
     "react-infinite-scroller": "^1.2.4",
     "react-scripts": "3.4.3",
