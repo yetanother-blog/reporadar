@@ -9,7 +9,7 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^10.0.2",
-    "@testing-library/user-event": "^12.1.10",
+    "@testing-library/user-event": "^12.2.0",
     "apollo-boost": "^0.4.9",
     "graphql": "^14.7.0",
     "moment": "^2.29.1",
