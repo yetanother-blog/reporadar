@@ -21,7 +21,7 @@
     "typescript": "^4.0.5"
   },
   "dependencies": {
-    "aws-sdk": "^2.792.0",
+    "aws-sdk": "^2.836.0",
     "graphql-request": "^2.0.0",
     "moment": "^2.29.1"
   },
