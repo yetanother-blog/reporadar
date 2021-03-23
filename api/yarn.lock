@@ -324,10 +324,10 @@
     "@sinonjs/commons" "^1"
     "@sinonjs/samsam" "^5.0.2"
 
-"@sinonjs/samsam@^5.0.2", "@sinonjs/samsam@^5.2.0":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@sinonjs/samsam/-/samsam-5.2.0.tgz#fcff83ab86f83b5498f4a967869c079408d9b5eb"
-  integrity sha512-CaIcyX5cDsjcW/ab7HposFWzV1kC++4HNsfnEdFJa7cP1QIuILAKV+BgfeqRXhcnSAc76r/Rh/O5C+300BwUIw==
+"@sinonjs/samsam@^5.0.2", "@sinonjs/samsam@^5.2.0", "@sinonjs/samsam@^5.3.1":
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/@sinonjs/samsam/-/samsam-5.3.1.tgz#375a45fe6ed4e92fca2fb920e007c48232a6507f"
+  integrity sha512-1Hc0b1TtyfBu8ixF/tpfSHTVWKwCBLY4QJbkgnE7HcwyvT2xArDxb4K7dMgqRm3szI+LJbzmW/s4xxEhv6hwDg==
   dependencies:
     "@sinonjs/commons" "^1.6.0"
     lodash.get "^4.4.2"
@@ -1875,10 +1875,10 @@ mute-stream@0.0.8:
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
 
-nise@^4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/nise/-/nise-4.0.4.tgz#d73dea3e5731e6561992b8f570be9e363c4512dd"
-  integrity sha512-bTTRUNlemx6deJa+ZyoCUTRvH3liK5+N6VQZ4NIw90AgDXY6iPnsqplNFf6STcj+ePk0H/xqxnP75Lr0J0Fq3A==
+nise@^4.0.4, nise@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/nise/-/nise-4.1.0.tgz#8fb75a26e90b99202fa1e63f448f58efbcdedaf6"
+  integrity sha512-eQMEmGN/8arp0xsvGoQ+B1qvSkR73B1nWSCh7nOt5neMCtwcQVYQGdzQMhcNscktTsWB54xnlSQFzOAPJD8nXA==
   dependencies:
     "@sinonjs/commons" "^1.7.0"
     "@sinonjs/fake-timers" "^6.0.0"
@@ -2322,7 +2322,19 @@ signal-exit@^3.0.2:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
   integrity sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
 
-sinon@^9.0.1, sinon@^9.2.1:
+sinon@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/sinon/-/sinon-10.0.0.tgz#52279f97e35646ff73d23207d0307977c9b81430"
+  integrity sha512-XAn5DxtGVJBlBWYrcYKEhWCz7FLwZGdyvANRyK06419hyEpdT0dMc5A8Vcxg5SCGHc40CsqoKsc1bt1CbJPfNw==
+  dependencies:
+    "@sinonjs/commons" "^1.8.1"
+    "@sinonjs/fake-timers" "^6.0.1"
+    "@sinonjs/samsam" "^5.3.1"
+    diff "^4.0.2"
+    nise "^4.1.0"
+    supports-color "^7.1.0"
+
+sinon@^9.0.1:
   version "9.2.1"
   resolved "https://registry.yarnpkg.com/sinon/-/sinon-9.2.1.tgz#64cc88beac718557055bd8caa526b34a2231be6d"
   integrity sha512-naPfsamB5KEE1aiioaoqJ6MEhdUs/2vtI5w1hPAXX/UwvoPjXcwh1m5HiKx0HGgKR8lQSoFIgY5jM6KK8VrS9w==
