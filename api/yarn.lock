@@ -345,10 +345,10 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@types/aws-lambda@^8.10.64":
-  version "8.10.64"
-  resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.64.tgz#4bdcb725aef96bef0cb1decf19c7efff1df22fe7"
-  integrity sha512-LRKk2UQCSi7BsO5TlfSI8cTNpOGz+MH6+RXEWtuZmxJficQgxwEYJDiKVirzgyiHce0L0F4CqCVvKTwblAeOUw==
+"@types/aws-lambda@^8.10.80":
+  version "8.10.80"
+  resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.80.tgz#2b9f97ff2291383ee3e22c34a60ddd526caaba13"
+  integrity sha512-Vnz/FxDSjxNPAyBf+1qMDNnFhuHp/aKwp0EDdfSLj0W9UIQBXt16Rd4uZCpGnP2Dlmg5VyUCR2031ykPGQyNNQ==
 
 "@types/color-name@^1.1.1":
   version "1.1.1"
