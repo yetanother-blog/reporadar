@@ -23,7 +23,7 @@
   "dependencies": {
     "aws-sdk": "^2.792.0",
     "graphql-request": "^2.0.0",
-    "moment": "^2.29.1"
+    "moment": "^2.29.2"
   },
   "ava": {
     "babel": {
